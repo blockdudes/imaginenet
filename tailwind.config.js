@@ -2,7 +2,27 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#f8f8f8",
+        secondary: "#f8f8f8",
+        tertiary: "#f8f8f8",
+      },
+      backgroundColor: {
+        primary: "#1d1d26",
+        btn: "purple",
+      },
+      borderRadius: {
+        primary: "10px",
+        secondary: "10px",
+        tertiary: "10px",
+      },
+      borderColor: {
+        primary: "green",
+        secondary: "#f8f8f8",
+        tertiary: "#f8f8f8",
+      },
+    },
   },
   plugins: [],
 };
