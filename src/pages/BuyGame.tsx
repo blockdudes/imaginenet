@@ -6,33 +6,33 @@ import SecureCheckout from "../components/buyGamePageComponents/SecureCheckout";
 import Header from "../components/buyGamePageComponents/Header";
 import { ThirdwebContract, readContract } from "thirdweb";
 import { GlobalContext } from "../context/Store";
-
-const gameData = {
-  name: "Game 1",
-  cid: "wehihvbu09a093yibkbkb",
-  token: "0x0000000000000000000000000000000000000000",
-  creator: "Darab",
-  price: "10eth",
-  imageUrl: "",
-};
+import { getGameList } from "../utils/gameHelperFunctions";
+import { RingLoader } from "react-spinners";
 
 const BuyGame = () => {
   const { id } = useParams();
-  const { getContractInstance } = useContext(GlobalContext);
+  const [gameData, setGameData] = useState(null);
 
-  const getGameByCid = async (id) => {
-    console.log("contractInstance", getContractInstance());
-    const res = await readContract({
-      contract: getContractInstance(),
-      method: "getGameByCid",
-      params: [id],
-    });
-    console.log(res);
-  };
+  const { allGames, handleGetGames, signer, contractInstance } =
+    useContext(GlobalContext);
+  console.log("allGames", allGames);
 
   useEffect(() => {
-    getGameByCid(id);
-  }, [id]);
+    handleGetGames().then((data) => {
+      console.log("resoved", data);
+      setGameData(data.find((item) => item?.cid == id));
+    });
+  }, [signer]);
+
+  console.log("gameData", gameData);
+
+  if (!gameData)
+    return (
+      <div className="flex w-full mt-24 text-white justify-center">
+        <RingLoader color="white" />
+      </div>
+    );
+
   return (
     <div className="bg-gray-900 w-full min-h-screen text-white">
       <Header />
