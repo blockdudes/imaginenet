@@ -1,19 +1,22 @@
 import lighthouse from "@lighthouse-web3/sdk";
 import { ethers } from "ethers";
-import { ThirdwebContract, readContract } from "thirdweb";
+import { Result } from "ethers/lib/utils";
+import { toast } from "react-toastify";
 
 declare global {
   interface Window {
-    ethereum: ethers.providers.ExternalProvider;
+    ethereum: any;
   }
 }
 
 // Define the Game interface
-interface Game {
+export interface Game {
   cid: string;
   name: string;
   imageUrl: string;
   price: ethers.BigNumber;
+  token?: string;
+  creator?: string;
 }
 
 function splitStringToBytes32Array(inputString: string): string[] {
@@ -71,8 +74,8 @@ const addAccessCondition = async (
   const accessConditions = [
     {
       id: 1,
-      chain: "Calibration",
-      method: "isGameOwned",
+      chain: "BSCTest",
+      method: "isGameOwnedBytes",
       standardContractType: "Custom",
       contractAddress: contract.address,
       returnValueTest: {
@@ -127,8 +130,8 @@ export const publishGame = async (
     if (window.ethereum) {
       try {
         const signerAddress = await user.getAddress();
-        const message  = (await lighthouse.getAuthMessage(signerAddress))
-          .data.message!;
+        const message = (await lighthouse.getAuthMessage(signerAddress)).data
+          .message!;
         const signature = await user.signMessage(message);
         return { signature, signerAddress };
       } catch (error) {
@@ -142,7 +145,10 @@ export const publishGame = async (
   };
 
   // Function to upload the encrypted file
-  const uploadEncryptedFile = async (file: FileList, user:ethers.providers.JsonRpcSigner) => {
+  const uploadEncryptedFile = async (
+    file: FileList,
+    user: ethers.providers.JsonRpcSigner
+  ) => {
     if (!file) {
       console.error("No file selected.");
       return;
@@ -167,9 +173,6 @@ export const publishGame = async (
         signature
       );
       console.log("Encrypted File Status:", output);
-      console.log(
-        `Decrypt at https://decrypt.mesh3.network/evm/${output.data[0].Hash}`
-      );
       return output.data[0].Hash;
     } catch (error) {
       console.error("Error uploading encrypted file:", error);
@@ -184,7 +187,7 @@ export const publishGame = async (
 
   await addAccessCondition(cid, user, contract);
 
-  // // Call publishGame function from the contract
+  // Call publishGame function from the contract
 
   const publish = await contract.publishGame(
     cid,
@@ -192,13 +195,12 @@ export const publishGame = async (
     symbol,
     price,
     imageUrl,
-    {gasLimit:5000000}
+    { gasLimit: 5000000 }
   );
   const reciept = await publish.wait();
   console.log("Reciept", reciept);
-  // console.log("Publish Game:", publish);
 
-  console.log("Game published successfully");
+  toast.success("Game published successfully!");
 };
 
 /**
@@ -256,13 +258,17 @@ export const buyGame = async (
   cid: string,
   price: ethers.BigNumber,
   contract: ethers.Contract
-): Promise<void> => {
+): Promise<Result | any> => {
   // Call buyGame function from the contract
-  const res = await contract.buyGame(cid, {
+  const res: Result | any = await contract.buyGame(cid, {
     value: price.toString(),
     gasLimit: 5000000,
   });
   console.log("Game purchased successfully", res);
+  
+  toast.success("Game purchased successfully!");
+
+  return res;
 };
 
 /**
@@ -286,12 +292,11 @@ export const getGameList = async (
     imageUrl: game.imageUrl,
     price: game.price,
     token: game.token,
-    creator: game.creator
+    creator: game.creator,
   }));
 };
 
 //if intergarated with thirdweb, use this
-
 
 /**
  * Checks if a game has been purchased by the user.
@@ -303,10 +308,8 @@ export const isGamePurchased = async (
   cid: string,
   contract: ethers.Contract
 ): Promise<boolean> => {
-  
-  console.log("contract", contract);
   // Call isGameOwned function from the contract
-  const isOwned = await contract.isGameOwned([cid], {
+  const isOwned = await contract.isGameOwned(cid, {
     gasLimit: 5000000000,
   });
 

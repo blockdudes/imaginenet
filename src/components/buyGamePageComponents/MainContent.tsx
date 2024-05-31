@@ -1,31 +1,37 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/Store";
-import { toast } from "react-toastify";
 import GameImage from "../../assets/thumbnail.png";
 import { buyGame } from "../../utils/gameHelperFunctions";
 import { PropagateLoader } from "react-spinners";
+import { Game } from "../../utils/gameHelperFunctions";
+import { useNavigate } from "react-router-dom";
 
-const MainContent = ({ gameData }) => {
-  const { contractInstance } = useContext(GlobalContext);
+const MainContent = ({
+  gameData,
+  isPurchased,
+}: {
+  gameData: Game;
+  isPurchased: boolean;
+}) => {
+  const navigate = useNavigate();
+  const { contractInstance } = useContext(GlobalContext)!;
   const [isLoading, setIsLoading] = useState(false);
-  const handleBuyGame = async (gameCid) => {
+  const handleBuyGame = async (gameCid: string) => {
     try {
       setIsLoading(true);
-      const res = await buyGame(
-        gameCid,
-        gameData?.price._hex,
-        contractInstance
-      );
+      const res = await buyGame(gameCid, gameData.price, contractInstance!);
 
       const reciept = await res.wait();
 
       console.log("res", reciept);
+
       setIsLoading(false);
     } catch (error) {
       console.log("error", error);
       setIsLoading(false);
     }
   };
+
   return (
     <div className=" w-full flex rounded-lg p-20 overflow-hidden">
       <div className="w-[60%]">
@@ -57,13 +63,20 @@ const MainContent = ({ gameData }) => {
           </div>
           <div className="mt-4 flex justify-between items-center">
             {isLoading ? (
-              <PropagateLoader color="white" />
+              <PropagateLoader className="ml-24 mt-3" color="white" />
+            ) : isPurchased ? (
+              <button
+                className="bg-secondary hover:bg-blue-700 text-white py-2 px-4 rounded"
+                onClick={() => navigate(`/play/${gameData.cid}`)}
+              >
+                Play
+              </button>
             ) : (
               <button
-                className="bg-[#4f28cd] hover:bg-blue-700 text-white py-2 px-4 rounded"
+                className="bg-secondary hover:bg-blue-700 text-white py-2 px-4 rounded"
                 onClick={() => handleBuyGame(gameData.cid)}
               >
-                Buy for {Number(gameData.price._hex / 1e18)} eth
+                Buy for {Number(gameData.price.toNumber() / 1e18)} eth
               </button>
             )}
           </div>

@@ -1,26 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import CategoryCard from "../components/homePageComponents/CategoryCard";
 import { GlobalContext } from "../context/Store";
-import { getGameList } from "../utils/gameHelperFunctions";
 import { RingLoader } from "react-spinners";
 
-const categories = [
-  { name: "Ready-made games", price: "10eth", imageUrl: "/path/to/image1.png" },
-  { name: "Custom games", price: "20eth", imageUrl: "/path/to/image2.png" },
-  { name: "Game templates", price: "15eth", imageUrl: "/path/to/image3.png" },
-  { name: "Game collections", price: "14eth", imageUrl: "/path/to/image4.png" },
-];
 const HomePage = () => {
   const {
     walletConnect,
     contractInstance,
     allGames,
-    setAllGames,
     homePageLoader,
     handleGetGames,
-  } = useContext(GlobalContext);
-
-  const uploadGame = async () => {};
+  } = useContext(GlobalContext)!;
 
   const handleWalletConnect = async () => {
     await walletConnect();
@@ -38,13 +28,19 @@ const HomePage = () => {
     <div className="flex w-full">
       {/* <Sidebar /> */}
 
-      <div className="flex-grow bg-gray-900">
-        <div
+      <div className="flex-grow bg-blue">
+        {/* <div
           className="fixed right-2 top-2 text-white"
           onClick={() => handleWalletConnect()}
         >
           Connect Wallet
-        </div>
+        </div> */}
+        <button
+          className="fixed right-4 top-4 bg-secondary font-semibold text-primary-text rounded-lg px-5 py-2 "
+          onClick={handleWalletConnect}
+        >
+          Connect Wallet
+        </button>
         {/* <button className="bg-white" onClick={() => uploadGame()}>
           uploadGame
         </button> */}
@@ -62,8 +58,8 @@ const HomePage = () => {
                 key={index}
                 cid={item.cid}
                 name={item.name}
-                image={item.imageUrl}
-                price={Number(item.price._hex)}
+                imageUrl={item.imageUrl}
+                price={item.price}
               />
             ))}
           </div>

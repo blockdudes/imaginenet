@@ -1,17 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import GameImage from "../../assets/thumbnail.png";
-import { readContract } from "thirdweb";
-import { useContext, useEffect } from "react";
-import { GlobalContext } from "../../context/Store";
+import { Game } from "../../utils/gameHelperFunctions";
 
-const CategoryCard = ({ name, image, price, cid }) => {
-  const isGameOwned = async (id) => {
-    // Call isGameOwned function from the contract
-  };
-  // useEffect(() => {
-  //   isGameOwned(cid);
-  // }, cid);
-
+const CategoryCard = ({ name, imageUrl, price, cid }: Game) => {
   const navigate = useNavigate();
   return (
     <div
@@ -19,7 +10,7 @@ const CategoryCard = ({ name, image, price, cid }) => {
       onClick={() => navigate(`/buy/${cid}`)}
     >
       <div className="w-[50x] h-[20px] flex items-center rounded-md text-xs px-3 py-3 absolute text-white font-semibold  top-2 left-2 bg-[#32323b]">
-        <p>{price / 1e18} eth</p>
+        <p>{(price.toNumber() / 1e18).toString()} eth</p>
       </div>
       <img
         src={GameImage}
