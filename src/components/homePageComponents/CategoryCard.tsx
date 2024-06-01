@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import GameImage from "../../assets/thumbnail.png";
 import { Game } from "../../utils/gameHelperFunctions";
+import { ethers } from "ethers";
 
 const CategoryCard = ({ name, imageUrl, price, cid }: Game) => {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ const CategoryCard = ({ name, imageUrl, price, cid }: Game) => {
       onClick={() => navigate(`/buy/${cid}`)}
     >
       <div className="w-[50x] h-[20px] flex items-center rounded-md text-xs px-3 py-3 absolute text-white font-semibold  top-2 left-2 bg-[#32323b]">
-        <p>{(price.toNumber() / 1e18).toString()} eth</p>
+        <p>{ethers.utils.formatEther(price.toBigInt()).toString()} eth</p>
       </div>
       <img
         src={GameImage}

@@ -5,6 +5,7 @@ import { buyGame } from "../../utils/gameHelperFunctions";
 import { PropagateLoader } from "react-spinners";
 import { Game } from "../../utils/gameHelperFunctions";
 import { useNavigate } from "react-router-dom";
+import { ethers } from "ethers";
 
 const MainContent = ({
   gameData,
@@ -16,6 +17,7 @@ const MainContent = ({
   const navigate = useNavigate();
   const { contractInstance } = useContext(GlobalContext)!;
   const [isLoading, setIsLoading] = useState(false);
+  const [isGamePurchased, setIsGamePurchased] = useState(isPurchased);
   const handleBuyGame = async (gameCid: string) => {
     try {
       setIsLoading(true);
@@ -24,7 +26,7 @@ const MainContent = ({
       const reciept = await res.wait();
 
       console.log("res", reciept);
-
+      setIsGamePurchased(true);
       setIsLoading(false);
     } catch (error) {
       console.log("error", error);
@@ -64,7 +66,7 @@ const MainContent = ({
           <div className="mt-4 flex justify-between items-center">
             {isLoading ? (
               <PropagateLoader className="ml-24 mt-3" color="white" />
-            ) : isPurchased ? (
+            ) : isGamePurchased ? (
               <button
                 className="bg-secondary hover:bg-blue-700 text-white py-2 px-4 rounded"
                 onClick={() => navigate(`/play/${gameData.cid}`)}
@@ -76,7 +78,9 @@ const MainContent = ({
                 className="bg-secondary hover:bg-blue-700 text-white py-2 px-4 rounded"
                 onClick={() => handleBuyGame(gameData.cid)}
               >
-                Buy for {Number(gameData.price.toNumber() / 1e18)} eth
+                Buy for{" "}
+                {ethers.utils.formatEther(gameData.price.toString()).toString()}{" "}
+                eth
               </button>
             )}
           </div>

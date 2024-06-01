@@ -212,7 +212,7 @@ export const publishGame = async (
 export const getGame = async (
   cid: string,
   user: ethers.providers.JsonRpcSigner
-): Promise<{ decryptedGame: FileList; url: string }> => {
+): Promise<{ decryptedGame: Blob; url: string }> => {
   const encryptionSignature = async (user: ethers.providers.JsonRpcSigner) => {
     const address = await user.getAddress();
     const messageRequested = (await lighthouse.getAuthMessage(address)).data
@@ -265,7 +265,7 @@ export const buyGame = async (
     gasLimit: 5000000,
   });
   console.log("Game purchased successfully", res);
-  
+
   toast.success("Game purchased successfully!");
 
   return res;
