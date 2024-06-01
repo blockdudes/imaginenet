@@ -15,7 +15,7 @@ export const GlobalContext = createContext<{
   homePageLoader: boolean;
 } | null>(null);
 
-const contractAddress = "0xD378DeF344B694f20D20727751d2Cd1132932707";
+const contractAddress = "0xf57cD583F696F0c87778Fd411d5A05252bd55766";
 
 export const GlobalStateProvider = ({ children }: { children: any }) => {
   const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner>();
