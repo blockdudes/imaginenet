@@ -15,10 +15,7 @@ export const GlobalContext = createContext<{
   homePageLoader: boolean;
 } | null>(null);
 
-// const contractAddress = "0x118e253ad66e7d30c8bee487eaa42463e9cd0f78";
-
-//on tenderly
-const contractAddress = "0x45B43678889191414aDd7C3EEfDD63d002DD98C0";
+const contractAddress = "0xD378DeF344B694f20D20727751d2Cd1132932707";
 
 export const GlobalStateProvider = ({ children }: { children: any }) => {
   const [signer, setSigner] = useState<ethers.providers.JsonRpcSigner>();
@@ -37,9 +34,7 @@ export const GlobalStateProvider = ({ children }: { children: any }) => {
         {
           chainId: "0x61",
           chainName: "BNB Smart Chain Testnet",
-          rpcUrls: [
-            "https://endpoints.omniatech.io/v1/bsc/testnet/public",
-          ],
+          rpcUrls: ["https://endpoints.omniatech.io/v1/bsc/testnet/public"],
           nativeCurrency: {
             symbol: "tBNB",
             decimals: 18,

@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import GameImage from "../../assets/thumbnail.png";
 import { Game } from "../../utils/gameHelperFunctions";
 import { ethers } from "ethers";
 
@@ -14,7 +13,8 @@ const CategoryCard = ({ name, imageUrl, price, cid }: Game) => {
         <p>{ethers.utils.formatEther(price.toBigInt()).toString()} eth</p>
       </div>
       <img
-        src={GameImage}
+        src={imageUrl}
+        crossOrigin="anonymous"
         alt={name}
         className="w-full rounded-t-xl h-[80%] object-cover"
       />

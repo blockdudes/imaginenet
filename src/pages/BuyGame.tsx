@@ -32,13 +32,13 @@ const BuyGame = () => {
 
   if (!gameData)
     return (
-      <div className="flex w-full mt-24 text-white justify-center">
+      <div className="flex h-3/4 w-full mt-24 text-white justify-center items-center">
         <RingLoader color="white" />
       </div>
     );
 
   return (
-    <div className="bg-gray-900 w-full min-h-screen text-white">
+    <div className="bg-gray-900 w-full min-h-screen text-white overflow-hidden  ">
       <Header />
       <div className="container mx-auto px-4 py-6">
         <MainContent gameData={gameData} isPurchased={isPurchased} />

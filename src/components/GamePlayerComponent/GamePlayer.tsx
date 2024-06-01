@@ -3,6 +3,7 @@ import { getGame } from "../../utils/gameHelperFunctions";
 import { GlobalContext } from "../../context/Store";
 import { WebContainer } from "@webcontainer/api";
 import { files } from "./files";
+import { RingLoader } from "react-spinners";
 
 const webcontainerInstance = await WebContainer.boot({ coep: "require-corp" });
 
@@ -135,8 +136,8 @@ const GamePlayer = ({ id }: { id: string }) => {
   return (
     <div className="w-full h-full overflow-hidden">
       {url == null ? (
-        <div className="w-11/12 h-full flex justify-center items-center">
-          <h1>Loading...</h1>
+        <div className="flex h-3/5 w-full mt-24 text-white justify-center items-center">
+          <RingLoader color="white" />
         </div>
       ) : (
         <div className={`h-[90%] w-full`}>

@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/Store";
-import GameImage from "../../assets/thumbnail.png";
 import { buyGame } from "../../utils/gameHelperFunctions";
 import { PropagateLoader } from "react-spinners";
 import { Game } from "../../utils/gameHelperFunctions";
@@ -35,16 +34,17 @@ const MainContent = ({
   };
 
   return (
-    <div className=" w-full flex rounded-lg p-20 overflow-hidden">
+    <div className="w-full flex rounded-lg p-20 gap-4">
       <div className="w-[60%]">
         <img
-          src={GameImage}
+          src={gameData.imageUrl}
+          crossOrigin="anonymous"
           alt="Produce Farm Bundle"
           className="w-full h-full rounded-lg"
         />
       </div>
-      <div className="pl-4 w-[40%]">
-        <h2 className="text-2xl font-bold">{gameData.name}</h2>
+      <div className="">
+        <h2 className="text-4xl font-bold">{gameData.name}</h2>
         {/* <p className="mt-2 text-sm text-[#ddd0fe]">
           developed by: {gameData.creator}
         </p> */}
@@ -63,12 +63,12 @@ const MainContent = ({
               </h1>
             </div>
           </div>
-          <div className="mt-4 flex justify-between items-center">
+          <div className="mt-8 flex items-center">
             {isLoading ? (
               <PropagateLoader className="ml-24 mt-3" color="white" />
             ) : isGamePurchased ? (
               <button
-                className="bg-secondary hover:bg-blue-700 text-white py-2 px-4 rounded"
+                className="bg-secondary hover:bg-blue-700 text-white py-4 px-20 rounded"
                 onClick={() => navigate(`/play/${gameData.cid}`)}
               >
                 Play

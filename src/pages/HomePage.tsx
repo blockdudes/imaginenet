@@ -24,10 +24,8 @@ const HomePage = () => {
 
   return (
     <div className="flex w-full">
-      {/* <Sidebar /> */}
-
-      <div className="flex-grow bg-blue">
-        <div className="fixed right-4 top-4 bg-secondary font-semibold text-primary-text rounded-lg">
+      <div className="flex-grow bg-blue overflow-auto">
+        <div className="fixed right-4 top-4 bg-secondary font-semibold text-primary-text rounded-lg mr-4">
           {signer != null ? (
             <button className="w-[200px] px-5 py-2">
               <p className="truncate text-secondary-text">{address}</p>
@@ -45,7 +43,7 @@ const HomePage = () => {
           Market Place
         </h1>
         {homePageLoader ? (
-          <div className="flex w-full mt-24 text-white justify-center">
+          <div className="flex h-4/5 w-full text-white justify-center items-center">
             <RingLoader color="white" />
           </div>
         ) : (
