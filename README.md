@@ -1,31 +1,44 @@
-# React + TypeScript + Vite
+# ImagineNet Project Description
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Intro
 
-Currently, two official plugins are available:
+In the dynamic world of gaming, 40% of all games sold on Steam are indie games. These are the products of single developers or small teams, driven by passion and creativity. Indie games are celebrated for their innovation, thoughtfulness, and uniqueness. However, creating these games is a labor-intensive and costly endeavor, and developers often face the uncertainty of whether their games will be well-received. Consequently, many talented developers opt to work in large studios on mainstream projects.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Solution
 
-## Expanding the ESLint configuration
+Introducing ImagineNet, a revolutionary platform where game developers can swiftly build, fund, and launch unique new games. ImagineNet leverages Filecoin to enable developers to cultivate a community around their ideas, rapidly launch MVPs, secure funding, and release complete games—all within a single platform.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Demo
 
-- Configure the top-level `parserOptions` property like this:
+Let's delve into a quick demo of what ImagineNet offers.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+<DEMO>
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# filecoin-frontend
+## How It Works
+
+Having seen the demo, let's explore how ImagineNet functions.
+
+![alt](./docs/works.png)
+
+This prototype exemplifies our concept, but our vision extends to establishing a network of builders, users, and investors collaborating for a brighter future.
+
+## Why Filecoin?
+
+Filecoin is the optimal storage solution for ImagineNet for several reasons:
+- **Size Compatibility**: Games are substantial in size, and Filecoin allows efficient storage and retrieval of these large files.
+- **Web3 Native and Decentralized**: Filecoin seamlessly integrates with our platform, maintaining decentralization.
+- **Speed**: Despite its decentralized nature, Filecoin offers impressive speed, ensuring smooth operations.
+
+## Impact
+
+There is an abundance of talented individuals eager to bring their ideas to life, but the high risk involved is a significant deterrent. ImagineNet mitigates these risks, providing developers with the tools, support, and distribution necessary to successfully fund and launch their games. This will result in:
+1. A surge in the number of game developers releasing innovative games.
+2. The emergence of a new investment asset for the web3 community.
+3. Filecoin becoming the primary distribution hub for these games.
+
+## Conclusion
+
+The true vision of web3 is not merely about memecoins but about fostering a creative and decentralized future. With Filecoin, we are paving the way for this future through ImagineNet. Thank you for your time!
+
+## Links
+[GDevelop Modified Code](https://github.com/blockdudes/gdevelop-filecoin)
