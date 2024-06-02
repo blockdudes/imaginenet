@@ -28,13 +28,14 @@ export const GlobalStateProvider = ({ children }: { children: any }) => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const { chainId } = await provider.getNetwork();
 
-    if (chainId !== 1) {
+    if (chainId !== 0x61) {
       //add chain
       await provider.send("wallet_addEthereumChain", [
         {
           chainId: "0x61",
           chainName: "BNB Smart Chain Testnet",
-          rpcUrls: ["https://endpoints.omniatech.io/v1/bsc/testnet/public"],
+          rpcUrls: ["https://bsc-testnet-rpc.publicnode.com"],
+          blockExplorerUrls: ["https://testnet.bscscan.com"],
           nativeCurrency: {
             symbol: "tBNB",
             decimals: 18,
@@ -65,7 +66,7 @@ export const GlobalStateProvider = ({ children }: { children: any }) => {
       window.ethereum.on("chainChanged", async () => {
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const { chainId } = await provider.getNetwork();
-        if (chainId !== 1) {
+        if (chainId !== 97) {
           alert("this chain is not supported connect your wallet again");
         }
       });

@@ -5,13 +5,12 @@ import { WebContainer } from "@webcontainer/api";
 import { files } from "./files";
 import { RingLoader } from "react-spinners";
 
-const webcontainerInstance = await WebContainer.boot({ coep: "require-corp" });
 
 const GamePlayer = ({ id }: { id: string }) => {
   const { signer } = useContext(GlobalContext)!;
   const [url, setUrl] = useState<string>();
 
-  const installDependencies = async () => {
+  const installDependencies = async (webcontainerInstance: any) => {
     const installProcess = await webcontainerInstance.spawn("npm", ["install"]);
     installProcess.output.pipeTo(
       new WritableStream({
@@ -23,19 +22,19 @@ const GamePlayer = ({ id }: { id: string }) => {
     return installProcess.exit;
   };
 
-  const startDevServer = async () => {
+  const startDevServer = async (webcontainerInstance: any) => {
     await webcontainerInstance.spawn("node", ["unzipper.js"]);
     await webcontainerInstance.spawn("ls", ["game", "-l"]);
-    const lss = await webcontainerInstance.spawn("serve", ["-s", "game"]);
+    await webcontainerInstance.spawn("serve", ["-s", "game"]);
 
-    lss.output.pipeTo(
-      new WritableStream({
-        write(data) {
-          console.log(data);
-        },
-      })
-    );
-    webcontainerInstance.on("server-ready", (port, url) => {
+    // lss.output.pipeTo(
+    //   new WritableStream({
+    //     write(data) {
+    //       console.log(data);
+    //     },
+    //   })
+    // );
+    webcontainerInstance.on("server-ready", (port: any, url: any) => {
       console.log(`Server is ready at ${url} on port ${port}`);
       setUrl(url);
     });
@@ -101,6 +100,8 @@ const GamePlayer = ({ id }: { id: string }) => {
   };
 
   const fetchGame = async () => {
+    const webcontainerInstance = await WebContainer.boot({ coep: "require-corp" });
+
     const db = await openIndexedDB();
     let game = await getGameFromIndexedDB(db, id);
 
@@ -119,12 +120,12 @@ const GamePlayer = ({ id }: { id: string }) => {
       },
     });
 
-    const exitCode = await installDependencies();
+    const exitCode = await installDependencies(webcontainerInstance);
     if (exitCode !== 0) {
       throw new Error("Installation failed");
     }
 
-    startDevServer();
+    startDevServer(webcontainerInstance);
   };
 
   useEffect(() => {
@@ -141,7 +142,7 @@ const GamePlayer = ({ id }: { id: string }) => {
         </div>
       ) : (
         <div className={`h-[90%] w-full`}>
-          <iframe src={url} width="100%" height="100%" />
+          <iframe src={url} width="100%" height="100%"  allow="cross-origin-isolated"/>
         </div>
       )}
     </div>
